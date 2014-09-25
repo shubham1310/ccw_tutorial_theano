@@ -214,7 +214,7 @@ e=a+d
 \end{frame}
 
 \section{Compiling/Running}
-\begin{frame}{Compiling and running expression}  
+\begin{frame}{Compiling and running expression}
   \begin{itemize}
   \item theano.function
   \item shared variables and updates
@@ -246,7 +246,7 @@ array(3.0)
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}{Shared variables}  
+\begin{frame}{Shared variables}
   \begin{itemize}
   \item It’s hard to do much with purely functional programming
   \item ``shared variables'' add just a little bit of imperative programming
@@ -300,7 +300,7 @@ and will limit the portability of your code
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Compilation modes}  
+\begin{frame}{Compilation modes}
   \begin{itemize}
   \item Can compile in different modes to get different kinds of programs
   \item Can specify these modes very precisely with arguments to theano.function
@@ -357,13 +357,13 @@ rather than an exception
 >>> f(0.)
 array(1.0)
 
-  
+
   \begin{itemize}
-  \item 
-  \item 
-  \item 
-  \item 
-  \item 
+  \item
+  \item
+  \item
+  \item
+  \item
   \end{itemize}
 \end{frame}
 
@@ -417,7 +417,7 @@ F. TensorConstant{1.0}
 \end{frame}
 
 \begin{frame}{Ops}
-  
+
   \begin{itemize}
   \item  An Op is any class that describes a
 mathematical function of some variables
@@ -512,8 +512,8 @@ Inputs scalar values: ['not scalar', 'not scalar', 'not scalar']
         stringstyle=\color{violet},
         }
 \begin{lstlisting}
-Debugprint of the apply node: 
-Elemwise{add,no_inplace} [@A] <TensorType(float64, vector)> ''   
+Debugprint of the apply node:
+Elemwise{add,no_inplace} [@A] <TensorType(float64, vector)> ''
  |<TensorType(float64, vector)> [@B] <TensorType(float64, vector)>
  |<TensorType(float64, vector)> [@C] <TensorType(float64, vector)>
  |<TensorType(float64, vector)> [@C] <TensorType(float64, vector)>
