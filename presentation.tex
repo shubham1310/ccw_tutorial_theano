@@ -108,16 +108,28 @@ int f(int x, int y){
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Scalar math}
+\begin{frame}[fragile]
+  \frametitle{Scalar math}
+  Using Theano:
+  \begin{itemize}
+  \item define expression $f(x,y) = x + y$
+  \item compile expression
+  \end{itemize}
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
 from theano import tensor as T
 x = T.scalar()
 y = T.scalar()
-z=x+y
-w=z*x
+z = x+y
+w = z*x
 a = T.sqrt(w)
 b = T.exp(a)
 c = a ** b
 d = T.log(c)
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -132,11 +144,11 @@ from theano import tensor as T
 x = T.vector()
 y = T.vector()
 # Scalar math applied elementwise
-a=x*y
+a = x * y
 # Vector dot product
 b = T.dot(x, y)
 # Broadcasting
-c=a+b
+c = a + b
 \end{lstlisting}
 \end{frame}
 
@@ -159,31 +171,54 @@ c = T.dot(x, a)
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}{Tensors}
+\begin{frame}[fragile]
+  \frametitle{Tensors}
+  Using Theano:
   \begin{itemize}
-  \item Dimensionality defined by length of “broadcastable” argument
-
-  \item Can add (or do other elemwise op) on two
-    tensors with same dimensionality
-  \item Duplicate tensors along broadcastable axes to
-    make size match
+  \item define expression $f(x,y) = x + y$
+  \item compile expression
+    \begin{itemize}
+    \item Dimensionality defined by length of ``broadcastable'' argument
+    \item Can add (or do other elemwise op) on two
+      tensors with same dimensionality
+    \item Duplicate tensors along broadcastable axes to
+      make size match
+    \end{itemize}
   \end{itemize}
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
 from theano import tensor as T
-tensor3 =
-T.TensorType(broadcastable=(False, False,
-False), dtype=‘float32’)
+tensor3 = T.TensorType(
+    broadcastable=(False, False, False),
+    dtype='float32')
 x = tensor3()
+\end{lstlisting}
 \end{frame}
 
-\begin{frame}{Reductions}
+\begin{frame}[fragile]
+  \frametitle{Reductions}
+  Using Theano:
+  \begin{itemize}
+  \item define expression $f(x,y) = x + y$
+  \item compile expression
+  \end{itemize}
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
 from theano import tensor as T
-tensor3 =
-T.TensorType(broadcastable=(False,
-False, False), dtype=‘float32’)
+tensor3 = T.TensorType(
+    broadcastable=(False, False, False),
+    dtype='float32')
 x = tensor3()
 total = x.sum()
 marginals = x.sum(axis=(0, 2))
 mx = x.max(axis=1)
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -204,13 +239,13 @@ b = a.T
 c = a.dimshuffle((0, 1))
 # Adding to larger tensor
 d = a.dimshuffle((0, 1, ``x''))
-e=a+d
+e = a + d
 \end{lstlisting}
 \end{frame}
 
 \begin{frame}{Exercices}
   Work through the ``01\_buildbing\_expressions'' directory now.
-  Available at ``git https://github.com/nouiz/ccw\_tutorial\_theano.git''.
+  Available at ``git~https://github.com/nouiz/ccw\_tutorial\_theano.git''.
 \end{frame}
 
 \section{Compiling/Running}
@@ -250,9 +285,9 @@ array(3.0)
   \begin{itemize}
   \item It’s hard to do much with purely functional programming
   \item ``shared variables'' add just a little bit of imperative programming
-  \item A “shared variable” is a buffer that stores a numerical value for a theano variable
+  \item A “shared variable” is a buffer that stores a numerical value for a Theano variable
   \item Can write to as many shared variables as you want, once each, at the end of the function
-  \item  Modify out side Theano function with get\_value() and set\_value() methods.
+  \item  Modify outside Theano function with get\_value() and set\_value() methods.
   \end{itemize}
 \end{frame}
 
@@ -271,12 +306,10 @@ array(3.0)
 >>> updates[x] = x + 1
 >>> f = function([], updates=updates)
 >>> f()
-[]
->>> x.get_value()
+>>> x.get\_value()
 1.0
 >>> x.set\_value(100.)
 >>> f()
-[]
 >>> x.get\_value()
 101.0
 \end{lstlisting}
@@ -290,7 +323,7 @@ array(3.0)
   \item This isn’t available in older versions of python,
 and will limit the portability of your code
   \end{itemize}
-  \item Not {} aka dict
+  \item Not \{\} aka dict
   \begin{itemize}
   \item The iteration order of this built-in class is not
     deterministic (thanks, Python!) so if Theano
@@ -324,7 +357,7 @@ modes regard as fine.
 
 \begin{frame}{Compilation for GPU}
   \begin{itemize}
-  \item Theano only supports 32 bit on GPU
+  \item Theano current back-end only supports 32 bit on GPU
   \item CUDA supports 64 bit, but is slow in gamer card
   \item T.fscalar, T.fvector, T.fmatrix are all 32 bit
   \item T.scalar, T.vector, T.matrix resolve to 32 bit or 64 bit depending on theano’s floatX flag
@@ -348,23 +381,25 @@ modes regard as fine.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Optimizations}
-• Sometimes optimizations discard error
-checking and produce incorrect output
-rather than an exception
+\begin{frame}[fragile]
+  \frametitle{Optimizations}
+
+  \begin{itemize}
+  \item Sometimes optimizations discard error
+    checking and produce incorrect output
+    rather than an exception
+  \end{itemize}
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
 >>> x = T.scalar()
 >>> f = function([x], x/x)
 >>> f(0.)
 array(1.0)
+\end{lstlisting}
 
-
-  \begin{itemize}
-  \item
-  \item
-  \item
-  \item
-  \item
-  \end{itemize}
 \end{frame}
 
 \begin{frame}{Exercises}
@@ -396,12 +431,12 @@ Work through the ``02\_compiling\_and\_running'' directory now
 >>> from theano.printing import min_informative_str
 >>> print min_informative_str(g)
 A. Elemwise{mul}
-B. Elemwise{second,no_inplace}
-C. Elemwise{mul,no_inplace}
-D. TensorConstant{2.0}
-E. x
-F. TensorConstant{1.0}
-<D>
+ B. Elemwise{second,no_inplace}
+  C. Elemwise{mul,no_inplace}
+   D. TensorConstant{2.0}
+   E. x
+  F. TensorConstant{1.0}
+ <D>
 \end{lstlisting}
 \end{frame}
 
@@ -573,11 +608,11 @@ Elemwise{mul,no_inplace} [@A] ''
 >>> z = x + y
 >>> z.name = 'z'
 >>> a = 2. * z
->>> from theano.printing import min\_informative\_str
->>> print min\_informative\_str(a)
-A. Elemwise{mul,no\_inplace}
-B. TensorConstant{2.0}
-C. z
+>>> from theano.printing import min_informative_str
+>>> print min_informative_str(a)
+A. Elemwise{mul,no_inplace}
+ B. TensorConstant{2.0}
+ C. z
 \end{lstlisting}
 \end{frame}
 
