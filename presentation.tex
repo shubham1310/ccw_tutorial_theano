@@ -1,0 +1,558 @@
+\documentclass[utf8x,xcolor=pdftex,dvipsnames,table]{beamer}
+\usetheme{Malmoe}  % Now it's a beamer presentation with the lisa theme!
+\setbeamertemplate{footline}[page number]
+\usecolortheme{beaver}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage[utf8x]{inputenc}
+%\logo{\includegraphics[width=.8in]{UdeM_NoirBleu_logo_Marie_crop}}
+\usepackage{listings}
+
+\newcommand{\superscript}[1]{\ensuremath{^{\textrm{#1}}}}
+
+\mode<presentation>
+
+\title{Introduction to Theano}
+
+\author{%
+\footnotesize
+Frédéric Bastien \newline
+(slides highly copied from previous tutorial by Ian G.) \newline
+}
+
+\date{September 25, 2014}
+
+\setbeamertemplate{navigation symbols}{}
+
+\begin{document}
+
+\begin{frame}[plain]
+ \titlepage
+ \vspace{-5em}
+% \includegraphics[width=1in]{../hpcs2011_tutorial/pics/lisabook_logo_text_3.png}
+ \hfill
+% \includegraphics[width=.8in]{../hpcs2011_tutorial/pics/UdeM_NoirBleu_logo_Marie_crop}
+\end{frame}
+
+\section{Outline}
+\begin{frame}{High level}\setcounter{page}{1}
+  \begin{itemize}
+  \item Overview of library (3 min)
+  \item Building expressions (30 min)
+  \item Compiling and running expressions (30 min)
+  \item Modifying expressions (25 min)
+  \item Debugging (30 min)
+  \item Citing Theano (2 min)
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Overview of Library}
+  Theano is many things
+  \begin{itemize}
+  \item Language
+  \item Compiler
+  \item Python library
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Overview}
+  Theano language:
+  \begin{itemize}
+  \item Operations on scalar, vector, matrix, tensor, and sparse variables
+  \item Linear algebra
+  \item Element-wise nonlinearities
+  \item Convolution
+  \item Extensible
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Overview}
+  Using Theano:
+  \begin{itemize}
+  \item define expression $f(x,y) = x + y$
+  \item compile expression todo picture
+  \item execute expression todo picture
+  \end{itemize}
+\end{frame}
+
+
+\section{Building}
+\begin{frame}{Building expressions}
+  \begin{itemize}
+  \item Scalars
+  \item Vectors
+  \item Matrices
+  \item Tensors
+  \item Reduction
+  \item Dimshuffle
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Scalar math}
+from theano import tensor as T
+x = T.scalar()
+y = T.scalar()
+z=x+y
+w=z*x
+a = T.sqrt(w)
+b = T.exp(a)
+c = a ** b
+d = T.log(c)
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Vector math}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+from theano import tensor as T
+x = T.vector()
+y = T.vector()
+# Scalar math applied elementwise
+a=x*y
+# Vector dot product
+b = T.dot(x, y)
+# Broadcasting
+c=a+b
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Matrix math}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+from theano import tensor as T
+x = T.matrix()
+y = T.matrix()
+a = T.vector()
+# Matrix-matrix product
+b = T.dot(x, y)
+# Matrix-vector product
+c = T.dot(x, a)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Tensors}
+  \begin{itemize}
+  \item Dimensionality defined by length of “broadcastable” argument
+
+  \item Can add (or do other elemwise op) on two
+    tensors with same dimensionality
+  \item Duplicate tensors along broadcastable axes to
+    make size match
+  \end{itemize}
+from theano import tensor as T
+tensor3 =
+T.TensorType(broadcastable=(False, False,
+False), dtype=‘float32’)
+x = tensor3()
+\end{frame}
+
+\begin{frame}{Reductions}
+from theano import tensor as T
+tensor3 =
+T.TensorType(broadcastable=(False,
+False, False), dtype=‘float32’)
+x = tensor3()
+total = x.sum()
+marginals = x.sum(axis=(0, 2))
+mx = x.max(axis=1)
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Dimshuffle}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+from theano import tensor as T
+tensor3 = T.TensorType(broadcastable=(False, False, False), dtype=''float32'')
+x = tensor3()
+y = x.dimshuffle((2, 1, 0))
+a = T.matrix()
+b = a.T
+# Same as b
+c = a.dimshuffle((0, 1))
+# Adding to larger tensor
+d = a.dimshuffle((0, 1, ``x''))
+e=a+d
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Exercices}
+  Work through the ``01\_buildbing\_expressions'' directory now.
+  Available at ``git https://github.com/nouiz/ccw\_tutorial\_theano.git''.
+\end{frame}
+
+\section{Compiling/Running}
+\begin{frame}{Compiling and running expression}  
+  \begin{itemize}
+  \item theano.function
+  \item shared variables and updates
+  \item compilation modes
+  \item compilation for GPU
+  \item optimizations
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{theano.function}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+>>> from theano import tensor as T
+>>> x = T.scalar()
+>>> y = T.scalar()
+>>> from theano import function
+>>> # first arg is list of SYMBOLIC inputs
+>>> # second arg is SYMBOLIC output
+>>> f = function([x, y], x + y)
+>>> # Call it with NUMERICAL values
+>>> # Get a NUMERICAL output
+>>> f(1., 2.)
+array(3.0)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Shared variables}  
+  \begin{itemize}
+  \item It’s hard to do much with purely functional programming
+  \item ``shared variables'' add just a little bit of imperative programming
+  \item A “shared variable” is a buffer that stores a numerical value for a theano variable
+  \item Can write to as many shared variables as you want, once each, at the end of the function
+  \item  Modify out side Theano function with get\_value() and set\_value() methods.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Shared variable example}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+>>> from theano import shared
+>>> x = shared(0.)
+>>> from theano.compat.python2x import OrderedDict
+>>> updates = OrderedDict()
+>>> updates[x] = x + 1
+>>> f = function([], updates=updates)
+>>> f()
+[]
+>>> x.get_value()
+1.0
+>>> x.set\_value(100.)
+>>> f()
+[]
+>>> x.get\_value()
+101.0
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Which dict?}
+  \begin{itemize}
+  \item Use theano.compat.python2x.OrderedDict
+  \item Not collections.OrderedDict
+  \begin{itemize}
+  \item This isn’t available in older versions of python,
+and will limit the portability of your code
+  \end{itemize}
+  \item Not {} aka dict
+  \begin{itemize}
+  \item The iteration order of this built-in class is not
+    deterministic (thanks, Python!) so if Theano
+    accepted this, the same script could compile
+    different C programs each time you run it
+  \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Compilation modes}  
+  \begin{itemize}
+  \item Can compile in different modes to get different kinds of programs
+  \item Can specify these modes very precisely with arguments to theano.function
+  \item Can use a few quick presets with environment variable flags
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Example preset compilation modes}
+  \begin{itemize}
+  \item FAST\_RUN: default. Spends a lot of time on
+compilation to get an executable that runs
+fast.
+  \item FAST\_COMPILE: Doesn’t spend much time
+compiling. Executable usually uses python
+instead of compiled C code. Runs slow.
+  \item DEBUG\_MODE: Adds lots of checks.
+Raises error messages in situations other
+modes regard as fine.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Compilation for GPU}
+  \begin{itemize}
+  \item Theano only supports 32 bit on GPU
+  \item CUDA supports 64 bit, but is slow in gamer card
+  \item T.fscalar, T.fvector, T.fmatrix are all 32 bit
+  \item T.scalar, T.vector, T.matrix resolve to 32 bit or 64 bit depending on theano’s floatX flag
+  \item floatX is float64 by default, set it to float32
+  \item Set device flag to gpu (or a specific gpu, like gpu0)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Optimizations}
+  \begin{itemize}
+  \item Theano changes the symbolic expressions
+    you write before converting them to C code
+  \item It makes them faster
+  \begin{itemize}
+  \item (x+y)+(x+y) -> 2 (x + y)
+  \end{itemize}
+  \item It makes them more stable
+  \begin{itemize}
+  \item exp(a)/exp(a).sum()->softmax(a)
+  \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Optimizations}
+• Sometimes optimizations discard error
+checking and produce incorrect output
+rather than an exception
+>>> x = T.scalar()
+>>> f = function([x], x/x)
+>>> f(0.)
+array(1.0)
+
+  
+  \begin{itemize}
+  \item 
+  \item 
+  \item 
+  \item 
+  \item 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Exercises}
+Work through the ``02\_compiling\_and\_running'' directory now
+\end{frame}
+
+\section{Modifying expressions}
+\begin{frame}{Modifying expressions}
+  \begin{itemize}
+  \item The grad method
+  \item Variable nodes
+  \item Types
+  \item Ops
+  \item Apply nodes
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{The grad method}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+>>> x = T.scalar('x')
+>>> y = 2. * x
+>>> g = T.grad(y, x)
+>>> from theano.printing import min_informative_str
+>>> print min_informative_str(g)
+A. Elemwise{mul}
+B. Elemwise{second,no_inplace}
+C. Elemwise{mul,no_inplace}
+D. TensorConstant{2.0}
+E. x
+F. TensorConstant{1.0}
+<D>
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Theano Variables}
+  \begin{itemize}
+  \item A Variable is a theano expression
+  \item Can come from T.scalar, T.matrix, etc.
+  \item Can come from doing operations on other Variables
+  \item Every Variable has a type field, identifying its Type \newline
+    e.g. TensorType((True, False), ‘float32’)
+  \item Variables can be thought of as nodes in a graph
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ops}
+  
+  \begin{itemize}
+  \item  An Op is any class that describes a
+mathematical function of some variables
+  \item Can call the op on some variables to get a
+new variable or variables
+  \item An Op class can supply other forms of
+information about the function, such as its
+derivatives
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Apply nodes}
+  \begin{itemize}
+  \item The Apply class is a specific instance of an application of an Op
+  \item Notable fields:
+    \begin{itemize}
+    \item op: The Op to be applied
+    \item inputs: The Variables to be used as input
+    \item outputs: The Variables produced
+    \end{itemize}
+  \item Variable.owner identifies the Apply that created the variable
+  \item Variable and Apply instances are nodes and owner/
+    inputs/outputs identify edges in a Theano graph
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Exercises}
+Work through the ``03\_modifying'' directory now
+\end{frame}
+
+\section{Debugging}
+\begin{frame}{Debugging}
+  \begin{itemize}
+  \item DEBUG\_MODE
+  \item TODO: line var created!
+  \item compute\_test\_value
+  \item min\_informative\_str
+  \item theano.printing.debugprint
+  \item Accessing the FunctionGraph
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{compute\_test\_value}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+>>> from theano import config
+>>> config.compute_test_value = 'raise'
+>>> x = T.vector()
+>>> import numpy as np
+>>> x.tag.test_value = np.ones((2,))
+>>> y = T.vector()
+>>> y.tag.test_value = np.ones((3,))
+>>> x + y
+...
+ValueError: Input dimension mis-match.
+(input[0].shape[0] = 2, input[1].shape[0] = 3)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{min\_informative\_str}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+>>> x = T.scalar()
+>>> y = T.scalar()
+>>> z = x + y
+>>> z.name = 'z'
+>>> a = 2. * z
+>>> from theano.printing import min\_informative\_str
+>>> print min\_informative\_str(a)
+A. Elemwise{mul,no\_inplace}
+B. TensorConstant{2.0}
+C. z
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{debugprint}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+>>> from theano.printing import debugprint
+>>> debugprint(a)
+Elemwise{mul,no_inplace} [@A] ''
+|TensorConstant{2.0} [@B]
+|Elemwise{add,no_inplace} [@C] 'z'
+|<TensorType(float64, scalar)> [@D]
+|<TensorType(float64, scalar)> [@E]
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Accessing a function’s fgraph}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+>>> x = T.scalar()
+>>> y = x / x
+>>> f = function([x], y)
+>>> debugprint(f.maker.fgraph.outputs[0])
+DeepCopyOp [@A] ''
+|TensorConstant{1.0} [@B]
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Exercises}
+Work through the ``04\_debugging'' directory now
+\end{frame}
+
+\section{Citing}
+\begin{frame}{Citing Theano}
+  \begin{itemize}
+  \item Please cite both of the following papers in
+all work that uses Theano:
+  \item Bastien, Frédéric, Lamblin, Pascal, Pascanu, Razvan, Bergstra, James, Goodfellow, Ian, Bergeron, Arnaud, Bouchard, Nicolas, and
+     Bengio,Yoshua. Theano: new features and speed improvements. Deep Learning and Unsupervised Feature Learning NIPS 2012
+    Workshop, 2012.
+  \item Bergstra, James, Breuleux, Olivier, Bastien, Frédéric, Lamblin, Pascal, Pascanu, Razvan, Desjardins, Guillaume, Turian, Joseph, Warde-
+     Farley, David, and Bengio,Yoshua. Theano: a CPU and GPU math expression compiler. In Proceedings of the Python for Scientific
+      Computing Conference (SciPy), June 2010. Oral Presentation.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Example acknowledgments}
+We would like to thank the developers of
+Theano \\citep\{bergstra+al:2010-scipy,Bastien-Theano-2012\},
+Pylearn2 \\citep\{pylearn2\_arxiv\_2013\}. We would also like
+to thank NSERC, Compute Canada, and Calcul Qu\'ebec
+for providing computational resources.
+\end{frame}
+
+
+\begin{frame}
+\begin{center}
+\bibliography{strings,strings-short,ml,aigaion-shorter}
+\Huge
+Questions?
+\end{center}
+\end{frame}
+
+
+\end{document}
