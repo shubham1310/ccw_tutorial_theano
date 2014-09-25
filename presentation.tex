@@ -547,16 +547,29 @@ Inputs scalar values: ['not scalar', 'not scalar', 'not scalar']
         stringstyle=\color{violet},
         }
 \begin{lstlisting}
+HINT: Re-running with most Theano optimization
+disabled could give you a back-traces when this
+node was created. This can be done with by setting
+the Theano flags optimizer=fast_compile
+HINT: Use the Theano flag 'exception_verbosity=high'
+for a debugprint of this apply node.
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Error message: exception\_verbosity=high}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
 Debugprint of the apply node:
 Elemwise{add,no_inplace} [@A] <TensorType(float64, vector)> ''
  |<TensorType(float64, vector)> [@B] <TensorType(float64, vector)>
  |<TensorType(float64, vector)> [@C] <TensorType(float64, vector)>
  |<TensorType(float64, vector)> [@C] <TensorType(float64, vector)>
 
-HINT: Re-running with most Theano optimization
-disabled could give you a back-traces when this
-node was created. This can be done with by setting
-the Theano flags optimizer=fast_compile
 \end{lstlisting}
 \end{frame}
 
@@ -573,6 +586,27 @@ Backtrace when the node is created:
     z = z + y
   File "/home/nouiz/src/Theano/theano/tensor/var.py", line 122, in __add__
     return theano.tensor.basic.add(self, other)
+
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Error message: Traceback}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+Traceback (most recent call last):
+  File "test.py", line 9, in <module>
+    f(np.ones((2,)), np.ones((3,)))
+  File "/u/bastienf/repos/theano/compile/function_module.py",
+       line 589, in __call__
+    self.fn.thunks[self.fn.position_of_error])
+  File "/u/bastienf/repos/theano/compile/function_module.py",
+       line 579, in __call__
+    outputs = self.fn()
 
 \end{lstlisting}
 \end{frame}
