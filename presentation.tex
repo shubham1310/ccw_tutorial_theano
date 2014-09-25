@@ -67,12 +67,31 @@ Frédéric Bastien \newline
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Overview}
+\begin{frame}[fragile]
+  \frametitle{Overview}
   Using Theano:
   \begin{itemize}
   \item define expression $f(x,y) = x + y$
-  \item compile expression todo picture
-  \item execute expression todo picture
+  \item compile expression
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+int f(int x, int y){
+  return x + y;
+}
+\end{lstlisting}
+
+  \item execute expression
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+>>> f(1, 2)
+3
+\end{lstlisting}
   \end{itemize}
 \end{frame}
 
@@ -433,33 +452,111 @@ Work through the ``03\_modifying'' directory now
 \begin{frame}{Debugging}
   \begin{itemize}
   \item DEBUG\_MODE
-  \item TODO: line var created!
-  \item compute\_test\_value
-  \item min\_informative\_str
+  \item Error message
   \item theano.printing.debugprint
+  \item min\_informative\_str
+  \item compute\_test\_value
   \item Accessing the FunctionGraph
   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{compute\_test\_value}
+  \frametitle{Error message: code}
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+import numpy as np
+import theano
+import theano.tensor as T
+x = T.vector()
+y = T.vector()
+z = x + x
+z = z + y
+f = theano.function([x, y], z)
+f(np.ones((2,)), np.ones((3,)))
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Error message: 1st part}
 
 \lstset{language=Python,
         commentstyle=\itshape\color{blue},
         stringstyle=\color{violet},
         }
 \begin{lstlisting}
->>> from theano import config
->>> config.compute_test_value = 'raise'
->>> x = T.vector()
->>> import numpy as np
->>> x.tag.test_value = np.ones((2,))
->>> y = T.vector()
->>> y.tag.test_value = np.ones((3,))
->>> x + y
-...
+Traceback (most recent call last):
+[...]
 ValueError: Input dimension mis-match.
-(input[0].shape[0] = 2, input[1].shape[0] = 3)
+    (input[0].shape[0] = 3, input[1].shape[0] = 2)
+Apply node that caused the error:
+   Elemwise{add,no_inplace}(<TensorType(float64, vector)>,
+                            <TensorType(float64, vector)>,
+                            <TensorType(float64, vector)>)
+Inputs types: [TensorType(float64, vector),
+               TensorType(float64, vector),
+               TensorType(float64, vector)]
+Inputs shapes: [(3,), (2,), (2,)]
+Inputs strides: [(8,), (8,), (8,)]
+Inputs scalar values: ['not scalar', 'not scalar', 'not scalar']
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Error message: 2st part}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+Debugprint of the apply node: 
+Elemwise{add,no_inplace} [@A] <TensorType(float64, vector)> ''   
+ |<TensorType(float64, vector)> [@B] <TensorType(float64, vector)>
+ |<TensorType(float64, vector)> [@C] <TensorType(float64, vector)>
+ |<TensorType(float64, vector)> [@C] <TensorType(float64, vector)>
+
+HINT: Re-running with most Theano optimization
+disabled could give you a back-traces when this
+node was created. This can be done with by setting
+the Theano flags optimizer=fast_compile
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Error message: optimizer=fast\_compile}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+Backtrace when the node is created:
+  File "test.py", line 7, in <module>
+    z = z + y
+  File "/home/nouiz/src/Theano/theano/tensor/var.py", line 122, in __add__
+    return theano.tensor.basic.add(self, other)
+
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{debugprint}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        }
+\begin{lstlisting}
+>>> from theano.printing import debugprint
+>>> debugprint(a)
+Elemwise{mul,no_inplace} [@A] ''
+|TensorConstant{2.0} [@B]
+|Elemwise{add,no_inplace} [@C] 'z'
+|<TensorType(float64, scalar)> [@D]
+|<TensorType(float64, scalar)> [@E]
 \end{lstlisting}
 \end{frame}
 
@@ -485,20 +582,24 @@ C. z
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{debugprint}
+  \frametitle{compute\_test\_value}
 
 \lstset{language=Python,
         commentstyle=\itshape\color{blue},
         stringstyle=\color{violet},
         }
 \begin{lstlisting}
->>> from theano.printing import debugprint
->>> debugprint(a)
-Elemwise{mul,no_inplace} [@A] ''
-|TensorConstant{2.0} [@B]
-|Elemwise{add,no_inplace} [@C] 'z'
-|<TensorType(float64, scalar)> [@D]
-|<TensorType(float64, scalar)> [@E]
+>>> from theano import config
+>>> config.compute_test_value = 'raise'
+>>> x = T.vector()
+>>> import numpy as np
+>>> x.tag.test_value = np.ones((2,))
+>>> y = T.vector()
+>>> y.tag.test_value = np.ones((3,))
+>>> x + y
+...
+ValueError: Input dimension mis-match.
+(input[0].shape[0] = 2, input[1].shape[0] = 3)
 \end{lstlisting}
 \end{frame}
 
