@@ -1,6 +1,8 @@
 # Fill in the TODOs in this exercise, then run
 # python 02_vector_mat.py to see if your solution works!
 #
+# This exercices ask you to make Theano variable, elemwise
+# multiplication and matrix/vector dot product.
 import numpy as np
 from theano import function
 raise NotImplementedError("TODO: add any other imports you need")

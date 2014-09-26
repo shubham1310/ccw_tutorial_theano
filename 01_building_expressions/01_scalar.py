@@ -1,6 +1,8 @@
 # Fill in the TODOs in this exercise, then run
 # python 01_scalar.py to see if your solution works!
 #
+# This exercice ask you to create Theano variable and do some
+# computation on them.
 import numpy as np
 from theano import function
 raise NotImplementedError("TODO: add any other imports you need")

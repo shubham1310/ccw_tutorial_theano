@@ -1,6 +1,8 @@
 # Fill in the TODOs in this exercise, then run
 # python 01_function.py to see if your solution works!
 #
+# This exercice make you use shared variable. You must create them and
+# update them by swapping 2 shared variables values.
 import numpy as np
 raise NotImplementedError("TODO: add any other imports you need")
 

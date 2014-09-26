@@ -4,6 +4,9 @@
 # The exception doesn't make it easy to tell which line of the python script
 # first created an invalid expression though.
 # Modify the script to use compute_test_value to find the first bad line.
+#
+# This show you another way then using Theano flags to find the line
+# in your code that build a bad graph.
 import numpy as np
 from theano import function
 from theano import tensor as T

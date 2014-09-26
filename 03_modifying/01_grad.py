@@ -1,6 +1,8 @@
 # Fill in the TODOs in this exercise, then run
 # python 01_grad.py to see if your solution works!
 #
+# This exercice ask you to use Theano automatic gradient system to
+# compute some derivative.
 from theano import tensor as T
 
 def grad_sum(x, y, z):

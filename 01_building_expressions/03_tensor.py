@@ -1,5 +1,8 @@
 # Fill in the TODOs in this exercise, then run
 # python 03_tensor.py to see if your solution works!
+#
+# This exercices ask you to create Theano tensor variable, do
+# broadcastable addition and to compute the max over part of a tensor.
 import numpy as np
 from theano import function
 raise NotImplementedError("TODO: add any other imports you need")

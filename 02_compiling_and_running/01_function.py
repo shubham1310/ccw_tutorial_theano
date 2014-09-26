@@ -1,6 +1,8 @@
 # Fill in the TODOs in this exercise, then run
 # python 01_function.py to see if your solution works!
 #
+# This exercice ask you to compile a Theano functiont and call it to
+# execute "x + y".
 from theano import tensor as T
 raise NotImplementedError("TODO: add any other imports you need")
 

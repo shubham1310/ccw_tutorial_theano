@@ -1,7 +1,7 @@
 # Something weird happens when you run this code.
 # Find something that is not quite right.
 # Figure out which compilation modes make the problem more obvious.
-# Explain why what is happening is happening.
+# Explain why what is happening.
 import numpy as np
 from theano import function
 from theano import tensor as T

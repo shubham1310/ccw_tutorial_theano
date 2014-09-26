@@ -1,5 +1,9 @@
 # Fill in the TODOs and run python 02_traverse.py to see if your solution
 # works!
+#
+# This exercice is here to show you how to navigate a little in the
+# Theano graph. You will need to find the inputs used that produce
+# some computation.
 import numpy as np
 from theano import tensor as T
 raise NotImplementedError("Add any imports you need.")
