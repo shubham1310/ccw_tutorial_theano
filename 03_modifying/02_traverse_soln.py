@@ -2,6 +2,7 @@ import numpy as np
 from theano.gof import Variable
 from theano import tensor as T
 
+
 def arg_to_softmax(prob):
     """
     Oh no! Someone has passed you the probability output,

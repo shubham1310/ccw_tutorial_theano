@@ -1,6 +1,7 @@
 from theano import tensor as T
 from theano import function
 
+
 def evaluate(x, y, expr, x_value, y_value):
     """
     x: A theano variable

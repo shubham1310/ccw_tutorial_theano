@@ -7,6 +7,7 @@ import numpy as np
 from theano import function
 raise NotImplementedError("TODO: add any other imports you need")
 
+
 def make_tensor(dim):
     """
     Returns a new Theano tensor with no broadcastable dimensions.
@@ -15,6 +16,7 @@ def make_tensor(dim):
     """
 
     raise NotImplementedError("TODO: implement this function.")
+
 
 def broadcasted_add(a, b):
     """
@@ -28,6 +30,7 @@ def broadcasted_add(a, b):
     """
 
     raise NotImplementedError("TODO: implement this function.")
+
 
 def partial_max(a):
     """
@@ -48,7 +51,7 @@ if __name__ == "__main__":
     c = broadcasted_add(a, b)
     d = partial_max(c)
 
-    f = function([a, b,], d)
+    f = function([a, b], d)
 
     rng = np.random.RandomState([1, 2, 3])
     a_value = rng.randn(2, 2, 2).astype(a.dtype)

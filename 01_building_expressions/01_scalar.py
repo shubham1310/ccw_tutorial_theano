@@ -7,6 +7,7 @@ import numpy as np
 from theano import function
 raise NotImplementedError("TODO: add any other imports you need")
 
+
 def make_scalar():
     """
     Returns a new Theano scalar.
@@ -14,12 +15,14 @@ def make_scalar():
 
     raise NotImplementedError("TODO: implement this function.")
 
+
 def log(x):
     """
     Returns the logarithm of a Theano scalar x.
     """
 
     raise NotImplementedError("TODO: implement this function.")
+
 
 def add(x, y):
     """
@@ -36,7 +39,7 @@ if __name__ == "__main__":
     f = function([a, b], d)
     a = np.cast[a.dtype](1.)
     b = np.cast[b.dtype](2.)
-    actual = f(a,b)
+    actual = f(a, b)
     expected = 1. + np.log(2.)
     assert np.allclose(actual, expected)
     print "SUCCESS!"

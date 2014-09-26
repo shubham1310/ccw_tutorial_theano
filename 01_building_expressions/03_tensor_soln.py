@@ -2,6 +2,7 @@ import numpy as np
 from theano import function
 import theano.tensor as T
 
+
 def make_tensor(dim):
     """
     Returns a new Theano tensor with no broadcastable dimensions.
@@ -9,6 +10,7 @@ def make_tensor(dim):
     """
 
     return T.TensorType(broadcastable=tuple([False] * dim), dtype='float32')()
+
 
 def broadcasted_add(a, b):
     """
@@ -22,6 +24,7 @@ def broadcasted_add(a, b):
     """
 
     return a.dimshuffle(2, 'x', 1, 0) + b
+
 
 def partial_max(a):
     """
@@ -42,7 +45,7 @@ if __name__ == "__main__":
     c = broadcasted_add(a, b)
     d = partial_max(c)
 
-    f = function([a, b,], d)
+    f = function([a, b], d)
 
     rng = np.random.RandomState([1, 2, 3])
     a_value = rng.randn(2, 2, 2).astype(a.dtype)

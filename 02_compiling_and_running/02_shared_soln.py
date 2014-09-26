@@ -3,6 +3,7 @@ from theano.compat.python2x import OrderedDict
 from theano import function
 from theano import shared
 
+
 def make_shared(shape):
     """
     Returns a theano shared variable containing a tensor of the specified
@@ -10,6 +11,7 @@ def make_shared(shape):
     You can use any value you want.
     """
     return shared(np.zeros(shape))
+
 
 def exchange_shared(a, b):
     """
@@ -20,6 +22,7 @@ def exchange_shared(a, b):
     temp = a.get_value()
     a.set_value(b.get_value())
     b.set_value(temp)
+
 
 def make_exchange_func(a, b):
     """
@@ -36,7 +39,6 @@ def make_exchange_func(a, b):
     updates[b] = a
     f = function([], updates=updates)
     return f
-
 
 
 if __name__ == "__main__":

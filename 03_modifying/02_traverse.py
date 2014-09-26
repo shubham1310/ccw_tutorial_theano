@@ -8,6 +8,7 @@ import numpy as np
 from theano import tensor as T
 raise NotImplementedError("Add any imports you need.")
 
+
 def arg_to_softmax(prob):
     """
     Oh no! Someone has passed you the probability output,

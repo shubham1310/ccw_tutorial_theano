@@ -3,6 +3,7 @@
 #
 from theano import tensor as T
 
+
 def grad_sum(x, y, z):
     """
     x: A theano variable
@@ -14,12 +15,10 @@ def grad_sum(x, y, z):
 
     return sum(T.grad(z, [x, y]))
 
-
-
 if __name__ == "__main__":
     x = T.scalar()
     y = T.scalar()
     z = x + y
     s = grad_sum(x, y, z)
-    assert s.eval({x: 0, y:0}) == 2
+    assert s.eval({x: 0, y: 0}) == 2
     print "SUCCESS!"

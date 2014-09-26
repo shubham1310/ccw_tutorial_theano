@@ -7,6 +7,7 @@ import numpy as np
 from theano import function
 raise NotImplementedError("TODO: add any other imports you need")
 
+
 def make_vector():
     """
     Returns a new Theano vector.
@@ -14,12 +15,14 @@ def make_vector():
 
     raise NotImplementedError("TODO: implement this function.")
 
+
 def make_matrix():
     """
     Returns a new Theano matrix.
     """
 
     raise NotImplementedError("TODO: implement this function.")
+
 
 def elemwise_mul(a, b):
     """
@@ -29,6 +32,7 @@ def elemwise_mul(a, b):
     """
 
     raise NotImplementedError("TODO: implement this function.")
+
 
 def matrix_vector_mul(a, b):
     """

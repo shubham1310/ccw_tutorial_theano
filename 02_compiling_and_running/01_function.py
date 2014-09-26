@@ -6,6 +6,7 @@
 from theano import tensor as T
 raise NotImplementedError("TODO: add any other imports you need")
 
+
 def evaluate(x, y, expr, x_value, y_value):
     """
     x: A theano variable

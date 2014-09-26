@@ -5,6 +5,7 @@
 # compute some derivative.
 from theano import tensor as T
 
+
 def grad_sum(x, y, z):
     """
     x: A theano variable
@@ -22,5 +23,5 @@ if __name__ == "__main__":
     y = T.scalar()
     z = x + y
     s = grad_sum(x, y, z)
-    assert s.eval({x: 0, y:0}) == 2
+    assert s.eval({x: 0, y: 0}) == 2
     print "SUCCESS!"

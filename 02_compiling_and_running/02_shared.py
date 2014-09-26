@@ -6,6 +6,7 @@
 import numpy as np
 raise NotImplementedError("TODO: add any other imports you need")
 
+
 def make_shared(shape):
     """
     Returns a theano shared variable containing a tensor of the specified
@@ -14,6 +15,7 @@ def make_shared(shape):
     """
     raise NotImplementedError("TODO: implement the function")
 
+
 def exchange_shared(a, b):
     """
     a: a theano shared variable
@@ -21,6 +23,7 @@ def exchange_shared(a, b):
     Uses get_value and set_value to swap the values stored in a and b
     """
     raise NotImplementedError("TODO: implement the function")
+
 
 def make_exchange_func(a, b):
     """
@@ -32,7 +35,6 @@ def make_exchange_func(a, b):
     f should not return anything
     """
     raise NotImplementedError("TODO: implement the function")
-
 
 
 if __name__ == "__main__":
