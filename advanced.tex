@@ -31,6 +31,7 @@ basicstyle=\fontfamily{pcr}\selectfont\footnotesize,
 keywordstyle=\color{darkgreen}\bfseries,
 commentstyle=\color{greenblue}\itshape,
 stringstyle=\color{violet},
+showstringspaces=false,
 tabsize=4,
 backgroundcolor=\color{lightgray},
 frame=single,
@@ -191,7 +192,7 @@ To test the \code{infer_shape} method we use \code{InferShapeTester}
 \begin{frame}{Example}
 \lstinputlisting[firstline=19,lastline=21]{doubleop.py}
 \begin{itemize}
-\item Here since the operation is simple the gardent is simple
+\item Here since the operation is simple the gradient is simple
 \item Note that we return a list
 \end{itemize}
 \end{frame}
@@ -257,8 +258,10 @@ Again others are available.  Refer to the documentation for a complete list.
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Example}
+\vskip5mm
 This is the C code equivalent to \code{perform}
-\lstinputlisting[linerange={30-58}]{doubleop.py}
+\vskip4mm
+\lstinputlisting[linerange={1-27}]{doublec.py}
 \end{frame}
 
 \begin{frame}{Exercice: DoubleC}
@@ -288,9 +291,8 @@ This is the C code equivalent to \code{perform}
 \end{frame}
 
 \begin{frame}{COp: Example}
-\only<1>{This is the same C code as before, using the COp style.}
-\only<1>{\lstinputlisting[linerange={60-71}]{doubleop.py}}
-\only<2>{\lstinputlisting[language=C,basicstyle=\fontfamily{pcr}\selectfont\scriptsize]{doublecop.c}}
+\only<1>{\lstinputlisting[linerange={1-16}]{doublecop.py}}
+\only<2>{\lstinputlisting[language=C]{doublecop.c}}
 \end{frame}
 
 \begin{frame}{Tests}
@@ -300,6 +302,7 @@ This is the C code equivalent to \code{perform}
 \begin{itemize}
 \item You should skip the test in those cases
 \end{itemize}
+\item Using DebugMode will compare the output of the Python version to the output of the C version and raise an error if they don't match
 \end{itemize}
 \end{frame}
 
@@ -324,17 +327,23 @@ This is the C code equivalent to \code{perform}
 \section{How to make a complex Op}
 
 \begin{frame}{\code{make_thunk}}
-\color{red} description of the make\_thunk interface
+\lstinputlisting[linerange={12-14}]{thunk.py}
+\begin{itemize}
+\item Define instead of \code{perform} or \code{c_code}
+\item Gives total freedom on how the computation is performed
+\item More complex to use and generally not needed
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Example}
-\color{red}Once again with ScalMulOp but with a make thunk that passes the scalar value to a helper function
-\end{frame}
+%\begin{frame}{Example}
+%\color{red}Once again with ScalMulOp but with a make thunk that passes the scalar value to a helper function
+%\end{frame}
 
 \section{Optimizations}
 % How to integrate your op automatically
 
 \begin{frame}{Replace an Existing Op}
+% use theano.gof.opt.OpSub
 \color{red} Replace ScalMulOp(2) with DoubleOp
 \end{frame}
 

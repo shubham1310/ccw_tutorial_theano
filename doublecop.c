@@ -8,13 +8,9 @@ int APPLY_SPECIFIC(doublecop)(PyArrayObject *x,
   if (*out == NULL)
     return -1;
 
-  for (PyObject *iter_in = PyArray_IterNew(inp),
-         PyObject *iter_out = PyArray_IterNew(*out);
-       PyArray_ITER_NOTDONE(iter_in) &&
-         PyArray_ITER_NOTDONE(iter_out);
-       PyArray_ITER_NEXT(iter_in),
-         PyArray_ITER_NEXT(iter_out)) {
-    *(DTYPE_OUTPUT_0 *)PyArray_ITER_DATA(iter_out) = 
-      (*(DTYPE_INPUT_0 *)PyArray_ITER_DATA(iter_in)) * 2;
+  for (npy_intp i = 0; i < PyArray_DIM(x, 0); i++) {
+    *(DTYPE_OUTPUT_0 *)PyArray_GETPTR1(*out, i) =
+      (*(DTYPE_INPUT_0 *)PyArray_GETPTR1(x, i)) * 2;
   }
+  return 0;
 }
