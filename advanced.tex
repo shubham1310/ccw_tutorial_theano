@@ -342,9 +342,38 @@ This is the C code equivalent to \code{perform}
 \section{Optimizations}
 % How to integrate your op automatically
 
-\begin{frame}{Replace an Existing Op}
-% use theano.gof.opt.OpSub
-\color{red} Replace ScalMulOp(2) with DoubleOp
+\begin{frame}{Purpose}
+\begin{itemize}
+\item End goal is to make code run faster
+\item Sometimes they look after stability or memory usage
+\item Most of the time you will make one to insert a new Op you wrote
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Replace an Op (V1)}
+Here is code to use \code{DoubleOp} instead of \code{ScalMul(2)}.
+\lstinputlisting[linerange={1-2,4-14}]{opt.py}
+\end{frame}
+
+\begin{frame}{Replace an Op (V2)}
+In this case since we are replacing one instance with another there is an easier way.
+\lstinputlisting[linerange={1-2,14-17}]{opt.py}
+\end{frame}
+
+\begin{frame}{Registering}
+In any case you need to register your optimization.
+\lstinputlisting[linerange={3-3,18-25}]{opt.py}
+\end{frame}
+
+\begin{frame}{Tests}
+\color{red}Test optimization application (op replacement, correct run)
+\end{frame}
+
+\begin{frame}{Exercice 4}
+\begin{itemize}
+\item Make an optimization that replace DoubleOp with DoubleC (or DoubleCOp)
+\item Write tests to make sure your optimization is applied correctly
+\end{itemize}
 \end{frame}
 
 \end{document}
