@@ -168,9 +168,12 @@ You change the class name and the constant \code{2} for a constant \code{3}. \\
 
 \begin{frame}{Exercise: ScalMulOp}
 \begin{center}
-Work though the "06\_scalmulop" directory now.
-It is available at \url{https://github.com/abergeron/ccw_tutorial_theano.git}.
+Work though the "06\_scalmulop" directory available at \url{https://github.com/abergeron/ccw_tutorial_theano.git}.
 \end{center}
+\begin{itemize}
+\item Take the \code{DoubleOp} code and make it work with an arbitrary scalar
+\item There are more than one solution possible, both have advantages and disadvantages
+\end{itemize}
 \end{frame}
 
 \begin{frame}{\code{infer_shape}}
@@ -221,7 +224,7 @@ It will compute the gradient numerically and symbolically (using our \code{grad(
 \end{frame}
 
 \begin{frame}{Exercice: Add Special Methods to ScalMulOp}
-Work through the "07\_scalmulgrad" directory
+Work through the "07\_scalmulgrad" directory available at \url{https://github.com/abergeron/ccw_tutorial_theano.git}
 \begin{itemize}
 \item Take the ScalMulOp class you made and add the \code{infer_shape} and \code{grad} methods to it.
 \item Don't forget to make tests for your new class to make sure everything works correctly.
@@ -277,13 +280,6 @@ This is the C code equivalent to \code{perform}
 \lstinputlisting[linerange={1-27}]{doublec.py}
 \end{frame}
 
-\begin{frame}{Exercice: DoubleC}
-\begin{itemize}
-\item Make a new DoubleC op that only accepts vectors as input using the C code above.
-\item Copy and modify the tests for DoubleC.  Be sure to check for invalid inputs (matrices).
-\end{itemize}
-\end{frame}
-
 \begin{frame}{COp}
 \lstinputlisting{cop.py}
 \end{frame}
@@ -330,11 +326,12 @@ This is the C code equivalent to \code{perform}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Add C Code to ScalMulOp}
+\begin{frame}{Exercice: Add C Code to ScalMulOp}
+Work through the "08\_scalmulc" directory available at \url{https://github.com/abergeron/ccw_tutorial_theano.git}.
 \begin{itemize}
-\item Take the ScalMulOp from before and write C code for it using either approach
-\item You can base yourself on the C code for DoubleOp
-\item Don't forget to test your new implementation
+\item Take the ScalMulOp from before and write C code for it using either approach (only accept vectors).
+\item You can base yourself on the C code for DoubleOp.
+\item Don't forget to test your new implementation! Be sure to check for invalid inputs (matrices).
 \end{itemize}
 \end{frame}
 
