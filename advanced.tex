@@ -35,6 +35,7 @@ showstringspaces=false,
 tabsize=4,
 backgroundcolor=\color{lightgray},
 frame=single,
+%showlines=true,
 %emph={theano,MyOp,DoubleOp}, emphstyle=\color{lightblue}\bfseries,
 emph={[2]__init__,make_node,perform,infer_shape,c_code,make_thunk,grad,R_op},emphstyle={[2]\color{methblue}},
 emph={[3]self},emphstyle={[3]\color{darkgreen}},
@@ -48,6 +49,14 @@ moredelim=**[is][{\color{red}}]{`}{`}
 \frame[plain]{\titlepage}
 
 \section*{}
+
+\begin{frame}{Setup}
+\begin{enumerate}
+\item Make sure you have Theano installed somewhere
+\item Clone this repository: \url{https://github.com/abergeron/ccw_tutorial_theano.git}
+\end{enumerate}
+\end{frame}
+
 \begin{frame}{Outline}
 \begin{enumerate}
 \item How to Make an Op (Python) (45 min)
@@ -58,6 +67,12 @@ moredelim=**[is][{\color{red}}]{`}{`}
 \end{frame}
 
 \section{How to Make an Op (Python)}
+
+\begin{frame}[plain]{}
+\begin{center}
+\Huge How to Make an Op (Python)
+\end{center}
+\end{frame}
 
 \begin{frame}[fragile]{Overview}
 \lstinputlisting[lastline=14]{python.py}
@@ -152,8 +167,10 @@ You change the class name and the constant \code{2} for a constant \code{3}. \\
 \end{frame}
 
 \begin{frame}{Exercise: ScalMulOp}
-Now what would we need to change in the DoubleOp code to make it multiply by an arbitrary number?
-\lstinputlisting[lastline=15]{doubleop.py}
+\begin{center}
+Work though the "06\_scalmulop" directory now.
+It is available at \url{https://github.com/abergeron/ccw_tutorial_theano.git}.
+\end{center}
 \end{frame}
 
 \begin{frame}{\code{infer_shape}}
@@ -170,7 +187,7 @@ Now what would we need to change in the DoubleOp code to make it multiply by an 
 \lstinputlisting[firstline=16,lastline=18]{doubleop.py}
 \begin{itemize}
 \item Here the code is really simple since we don't change the shape in any way in our Op
-\item \code{input_shapes} would be \code{[x.shape]} or an expression equivalent to it
+\item \code{input_shapes} would be an expression equivalent to \code{[x.shape]}
 \end{itemize}
 \end{frame}
 
@@ -203,18 +220,8 @@ To test the gradient we use \code{verify_grad}
 It will compute the gradient numerically and symbolically (using our \code{grad()} method) and compare the two.
 \end{frame}
 
-%\subsection{\code{R_op}}
-
-%\begin{frame}{Description}
-%\end{frame}
-
-%\begin{frame}{Example}
-%\end{frame}
-
-%\begin{frame}{Tests}
-%\end{frame}
-
-\begin{frame}{Add Special Methods to ScalMulOp}
+\begin{frame}{Exercice: Add Special Methods to ScalMulOp}
+Work through the "07\_scalmulgrad" directory
 \begin{itemize}
 \item Take the ScalMulOp class you made and add the \code{infer_shape} and \code{grad} methods to it.
 \item Don't forget to make tests for your new class to make sure everything works correctly.
@@ -222,6 +229,12 @@ It will compute the gradient numerically and symbolically (using our \code{grad(
 \end{frame}
 
 \section{How to Make an Op (C)}
+
+\begin{frame}[plain]{}
+\begin{center}
+\Huge How to Make an Op (C)
+\end{center}
+\end{frame}
 
 \begin{frame}{Overview}
 \lstinputlisting{c.py}
@@ -298,9 +311,10 @@ This is the C code equivalent to \code{perform}
 \begin{frame}{Tests}
 \begin{itemize}
 \item Testing ops with C code is done the same way as testing for python ops
-\item One thing to watch for is that tests for ops which don't have python code
+\item One thing to watch for is tests for ops which don't have python code
 \begin{itemize}
 \item You should skip the test in those cases
+\item Test for \code{theano.config.gxx == ""}
 \end{itemize}
 \item Using DebugMode will compare the output of the Python version to the output of the C version and raise an error if they don't match
 \end{itemize}
@@ -324,7 +338,13 @@ This is the C code equivalent to \code{perform}
 \end{itemize}
 \end{frame}
 
-\section{How to make a complex Op}
+\section{How to Make a Complex Op}
+
+\begin{frame}[plain]{}
+\begin{center}
+\Huge How to Make a Complex Op
+\end{center}
+\end{frame}
 
 \begin{frame}{\code{make_thunk}}
 \lstinputlisting[linerange={12-14}]{thunk.py}
@@ -342,6 +362,12 @@ This is the C code equivalent to \code{perform}
 \section{Optimizations}
 % How to integrate your op automatically
 
+\begin{frame}[plain]{}
+\begin{center}
+\Huge Optimizations
+\end{center}
+\end{frame}
+
 \begin{frame}{Purpose}
 \begin{itemize}
 \item End goal is to make code run faster
@@ -352,17 +378,18 @@ This is the C code equivalent to \code{perform}
 
 \begin{frame}{Replace an Op (V1)}
 Here is code to use \code{DoubleOp} instead of \code{ScalMul(2)}.
-\lstinputlisting[linerange={1-2,4-14}]{opt.py}
+\lstinputlisting[linerange={1-5,9-15}]{opt.py}
 \end{frame}
 
 \begin{frame}{Replace an Op (V2)}
 In this case since we are replacing one instance with another there is an easier way.
-\lstinputlisting[linerange={1-2,14-17}]{opt.py}
+\lstinputlisting[linerange={1-2,16-20}]{opt.py}
 \end{frame}
 
 \begin{frame}{Registering}
 In any case you need to register your optimization.
-\lstinputlisting[linerange={3-3,18-25}]{opt.py}
+\lstinputlisting[linerange={6-10}]{opt.py}
+\lstinputlisting[linerange={21-21}]{opt.py}
 \end{frame}
 
 \begin{frame}{Tests}

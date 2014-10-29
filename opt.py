@@ -1,9 +1,11 @@
 from scalmulop import ScalMulV1
 from doubleop import DoubleOp
-from theano.compile import optdb
 
 from theano.gof import local_optimizer
 
+from theano.tensor.opt import register_specialize
+
+@register_specialize
 @local_optimizer([ScalMulV1])
 def local_scalmul_double_v1(node):
     if not (isinstance(node.op, ScalMulV1)
@@ -16,10 +18,4 @@ from theano.gof.opt import OpSub
 
 local_scalmul_double_v2 = OpSub(ScalMulV1(2), DoubleOp())
 
-optdb['specialize'].register(
-    # name of optimization (must be unique)
-    'local_scalmul_double_v2',
-    # optimization function
-    local_scalmul_double_v2,
-    # tags to activate/deactivate as a group
-    'fast_run')
+register_specialize(local_scalmul_double_v2)

@@ -18,8 +18,3 @@ class `TripleOp`(Op):
 
     def grad(self, inputs, output_grads):
         return [output_grads[0] * `3`]
-
-    def R_op(self, inputs, eval_points):
-        if eval_points[0] is None:
-            return eval_points
-        return self.grad(inputs, eval_points)
