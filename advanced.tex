@@ -50,13 +50,6 @@ moredelim=**[is][{\color{red}}]{`}{`}
 
 \section*{}
 
-\begin{frame}{Setup}
-\begin{enumerate}
-\item Make sure you have Theano installed somewhere
-\item Clone this repository: \url{https://github.com/abergeron/ccw_tutorial_theano.git}
-\end{enumerate}
-\end{frame}
-
 \begin{frame}{Outline}
 \begin{enumerate}
 \item How to Make an Op (Python) (45 min)
@@ -93,6 +86,7 @@ moredelim=**[is][{\color{red}}]{`}{`}
 \item Optional (although very useful)
 \item Generates \code{__hash__}, \code{__eq__} and \code{__str__} methods if present
 \item Empty tuple signifies no properties that should take part in comparison
+\item If you have only one property, make sure you add a final comma: \code{('property',)}
 \end{itemize}
 \begin{alertblock}{}
 Make sure \code{__hash__}, \code{__eq__} and \code{__str__} are not defined in a superclass if you don't inherit directly from Op since otherwise your methods will get shadowed.
@@ -369,7 +363,7 @@ Work through the "08\_scalmulc" directory available at \url{https://github.com/a
 \end{frame}
 
 \begin{frame}{Replace an Op (V1)}
-Here is code to use \code{DoubleOp} instead of \code{ScalMul(2)}.
+Here is code to use \code{DoubleOp()} instead of \code{ScalMul(2)}.
 \lstinputlisting[linerange={1-5,9-15}]{opt.py}
 \end{frame}
 
@@ -381,11 +375,11 @@ In this case since we are replacing one instance with another there is an easier
 \begin{frame}{Registering}
 In any case you need to register your optimization.
 \lstinputlisting[linerange={6-10}]{opt.py}
-\lstinputlisting[linerange={21-21}]{opt.py}
+\lstinputlisting[linerange={21-22}]{opt.py}
 \end{frame}
 
 \begin{frame}{Tests}
-\color{red}Test optimization application (op replacement, correct run)
+\lstinputlisting{test_opt.py}
 \end{frame}
 
 \begin{frame}{Exercice 4}

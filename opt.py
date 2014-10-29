@@ -12,10 +12,11 @@ def local_scalmul_double_v1(node):
             and node.op.scal == 2):
         return False
 
-    return DoubleOp()(node.inputs[0])
+    return [DoubleOp()(node.inputs[0])]
 
 from theano.gof.opt import OpSub
 
 local_scalmul_double_v2 = OpSub(ScalMulV1(2), DoubleOp())
 
-register_specialize(local_scalmul_double_v2)
+register_specialize(local_scalmul_double_v2,
+                    name='local_scalmul_double_v2')

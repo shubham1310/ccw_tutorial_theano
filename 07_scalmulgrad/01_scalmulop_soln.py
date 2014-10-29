@@ -3,7 +3,7 @@ from theano.tensor import as_tensor_variable
 from theano.scalar import as_scalar_variable
 
 class ScalMul(Op):
-    __props__ = ('scal')
+    __props__ = ('scal',)
 
     def __init__(self, scal):
         if not isinstance(scal, int):

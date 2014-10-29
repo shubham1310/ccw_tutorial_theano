@@ -2,7 +2,7 @@ from theano import Op, Apply
 from theano.tensor import as_tensor_variable
 
 class ScalMulC(Op):
-    __props__ = ('scal')
+    __props__ = ('scal',)
 
     def __init__(self, scal):
         if not isinstance(scal, int):
