@@ -7,6 +7,7 @@ from theano.tests.test_rop import RopLop_checker
 
 from doubleop import DoubleOp
 
+
 def test_doubleop():
     x = matrix()
     f = function([x], DoubleOp()(x))

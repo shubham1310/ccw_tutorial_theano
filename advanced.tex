@@ -107,7 +107,7 @@ Make sure \code{__hash__}, \code{__eq__} and \code{__str__} are not defined in a
 \begin{itemize}
 \item This performs the computation on a set of values (hence the method name)
 \item The parameters are all python objects (not symbolic values)
-\item This method must not return its result, but rather store it in the 1-element lists (or cells) provided in \code{output_storage}
+\item This method must not return its result, but rather store it in the 1-element lists (or cells) provided in \code{outputs_storage}
 \end{itemize}
 \end{frame}
 
@@ -130,7 +130,7 @@ You can do both steps at once with a double call like this:
 \end{frame}
 
 \begin{frame}{Basic Tests}
-\lstinputlisting[linerange={1-4,7-17}]{test_doubleop.py}
+\lstinputlisting[linerange={1-5,8-18}]{test_doubleop.py}
 \end{frame}
 
 \begin{frame}[fragile]{Run Tests}
@@ -190,7 +190,7 @@ Work though the "06\_scalmulop" directory available at \url{https://github.com/a
 
 \begin{frame}{Tests}
 To test the \code{infer_shape} method we use \code{InferShapeTester}
-\lstinputlisting[linerange={5-5,18-31}]{test_doubleop.py}
+\lstinputlisting[linerange={5-5,19-32}]{test_doubleop.py}
 \end{frame}
 
 \begin{frame}{Gradient}
