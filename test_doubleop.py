@@ -9,6 +9,7 @@ from doubleop import DoubleOp
 
 
 def test_doubleop():
+    utt.seed_rng()
     x = matrix()
     f = function([x], DoubleOp()(x))
     inp = numpy.asarray(numpy.random.rand(5, 4),
@@ -19,6 +20,7 @@ def test_doubleop():
 
 class test_Double(utt.InferShapeTester):
     def test_infer_shape(self):
+        utt.seed_rng()
         x = matrix()
         self._compile_and_check(
             # function inputs (symbolic)
@@ -33,14 +35,10 @@ class test_Double(utt.InferShapeTester):
 
 
 def test_doubleop_grad():
+    utt.seed_rng()
     utt.verify_grad(
         # Op instance
         DoubleOp(),
         # Numeric inputs
         [numpy.random.rand(5, 7, 2)]
         )
-
-
-class test_DoubleRop(RopLop_checker):
-    def test_double_rop(self):
-        self.check_rop_lop(DoubleOp()(self.x), self.in_shape)
