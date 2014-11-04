@@ -114,6 +114,7 @@ Make sure \code{__hash__}, \code{__eq__} and \code{__str__} are not defined in a
 \item This performs the computation on a set of values (hence the method name)
 \item The parameters are all python objects (not symbolic values)
 \item This method must not return its result, but rather store it in the 1-element lists (or cells) provided in \code{outputs_storage}
+\item The output storage may contain a pre-existing value from a previous run that may be reused for storage.
 \end{itemize}
 \end{frame}
 
@@ -250,6 +251,7 @@ Work through the "07\_scalmulgrad" directory available at \url{https://github.co
 \item \code{input_names} contains the variable names where the inputs are
 \item \code{output_names} contains the variable names where to place the outputs
 \item \code{sub} contains some code snippets to insert into our code (mostly to indicate failure)
+\item The variables in \code{output_names} may contain a reference to a pre-existing value from a previous run that may be reused for storage.
 \end{itemize}
 \end{frame}
 
