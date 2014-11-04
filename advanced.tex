@@ -274,6 +274,24 @@ Some of the methods available to customize the compilation environment:
 Again others are available.  Refer to the documentation for a complete list.
 \end{frame}
 
+\begin{frame}{Python C-API}
+\begin{description}
+\item[\texttt{void Py\_INCREF(PyObject *o)}] Increase the reference count of a python object.
+\item[\texttt{void Py\_DECREF(PyObject *o)}] Decrease the reference count of a python object.
+\item[\texttt{void Py\_XINCREF(PyObject *o)}] Increase the reference count of a (potentially NULL) python object.
+\item[\texttt{void Py\_XDECREF(PyObject *o)}] Decrease the reference count of a (potentially NULL) python object.
+\end{description}
+\end{frame}
+
+\begin{frame}{Numpy C-API}
+\begin{description}
+\item[\texttt{int PyArray\_NDIM(PyArrayObject *a)}] Get the number of dimension of an array.
+\item[\texttt{npy\_intp *PyArray\_DIMS(PyArrayObject *a)}] Get the shape of an array.
+\item[\texttt{npy\_intp *PyArray\_STRIDES(PyArrayObject *a)}] Get the strides of an array.
+\item[\texttt{void * PyArray\_DATA(PyArrayObject *a)}] Get the data pointer (pointer to element 0) of an array.
+\end{description}
+\end{frame}
+
 \begin{frame}[allowframebreaks]{Example}
 \vskip5mm
 This is the C code equivalent to \code{perform}
