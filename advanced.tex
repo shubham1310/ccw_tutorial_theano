@@ -203,8 +203,8 @@ Work though the "06\_scalmulop" directory available at \url{https://github.com/a
 \lstinputlisting[firstline=18,lastline=20]{python.py}
 \begin{itemize}
 \item This function is required for graphs including your op to work with \code{theano.grad()}
+\item Each item you return represents the gradient with respect to that input computed based on the gradient with respect to the outputs (which you get in \code{output_grads}).
 \item It must return a list of symbolic graphs for each of your inputs
-\item You compute the partial derivative with regards to your inputs
 \item Inputs that have no valid gradient should have a special \code{DisconnectedType} value
 \end{itemize}
 \end{frame}
